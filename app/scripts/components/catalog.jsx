@@ -9,13 +9,14 @@ var HeaderContainer = React.createClass({
     e.preventDefault();
     var router = this.props.router;
 
-    router.navigate('/catalog', {trigger:true});
+    router.navigate('#catalog/', {trigger:true});
   },
   handleCartClick: function(e){
     e.preventDefault();
     var router = this.props.router;
+    console.log(router);
 
-    router.navigate('/cart', {trigger:true});
+    router.navigate('#cart/', {trigger:true});
   },
   render:function(){
     return (
@@ -24,7 +25,6 @@ var HeaderContainer = React.createClass({
         <img className="logo" src="http://rlv.zcache.com/black_forest_hound_dog_cartoon_classic_round_sticker-r909e69a2605a43a1998dc471ab4d4177_v9waf_8byvr_324.jpg" />
         <span onClick={this.handleTShirtClick} className="tShirts">T-shirts</span>
         <span onClick={this.handleCartClick} className="cart">Cart</span>
-
       </Well>
     )
   }
@@ -41,7 +41,7 @@ var CatalogListing = React.createClass({
           <div className="caption">
             <h3>{shirt.title}</h3>
             <p>...</p>
-            <a href="#" className="btn btn-primary" role="button">Add to Cart</a>
+            <a onClick={function(){self.props.addShirt(shirt)}} className="btn btn-primary" role="button">Add to Cart</a>
           </div>
       </div>
     );
@@ -57,11 +57,27 @@ var CatalogListing = React.createClass({
 });
 
 var CatalogContainer = React.createClass({
+  getInitialState: function(){
+    var cart = [];
+    return{
+      cart: cart
+    }
+  },
+
+  addShirt: function(shirt){
+    this.state.cart.push(shirt);
+    localStorage.setItem('order', JSON.stringify(this.state.cart));
+
+  },
+
   render: function(){
+    console.log(localStorage.getItem('user'));
+    var user = localStorage.getItem('user');
     return (
       <div className="container">
-        <HeaderContainer />
-        <CatalogListing />
+        <HeaderContainer router={this.props.router}/>
+        <h1>Hello, {user}!</h1>
+        <CatalogListing addShirt={this.addShirt}/>
       </div>
     )
   }

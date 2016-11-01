@@ -25,12 +25,12 @@ var AppRouter = Backbone.Router.extend({
       document.getElementById('app')
     );
   },
-  // cart: function(){
-  //   ReactDOM.render(
-  //     React.createElement(CartContainer, {router:this}),
-  //     document.getElementById('app')
-  //   );
-  // }
+  cart: function(){
+    ReactDOM.render(
+      React.createElement(CartContainer, {router:this}),
+      document.getElementById('app')
+    );
+  }
 });
 
 var router = new AppRouter();
